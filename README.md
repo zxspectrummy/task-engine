@@ -21,6 +21,7 @@ SpringBoot AMQP is a popular and well-known library that is widely used for impl
     mvn spring-boot:run -Dspring-boot.run.profiles=pub
 
 ### Running tests
+Executes end-to-end test to verify that the commands accepted by REST API can be actually executed by the subscribers
     mvn test
 
 ## REST API
@@ -97,4 +98,5 @@ SpringBoot AMQP is a popular and well-known library that is widely used for impl
 Prometheus can be used to monitor status of all the components including the database and RabbitMQ
 
 ### Security
-AMQP supports transport-level security using TLS. We might want to use in production.
+* Authentication for REST API
+* AMQP supports transport-level security using TLS. We might want to use in production.

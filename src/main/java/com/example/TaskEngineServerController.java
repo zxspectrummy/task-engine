@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -31,9 +32,8 @@ public class TaskEngineServerController {
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        task.setState(TaskState.QUEUED);
-        Task savedTask = taskRepository.saveAndFlush(task);
-        publisher.publish(task);
+        Task savedTask = taskRepository.save(task.withState(TaskState.QUEUED).withStartedAt(new Timestamp(System.currentTimeMillis())));
+        publisher.publish(savedTask);
         return savedTask;
     }
 

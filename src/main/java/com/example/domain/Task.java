@@ -1,15 +1,20 @@
 package com.example.domain;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tasks")
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@ToString
+@With
 public class Task {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,10 +28,10 @@ public class Task {
     @Column(name = "command")
     private String command;
 
-    @Column(name = "stdout")
+    @Column(name = "stdout", length = 4096)
     private String stdout;
 
-    @Column(name = "stderr")
+    @Column(name = "stderr", length = 4096)
     private String stderr;
 
     @Column(name = "state")
@@ -34,17 +39,16 @@ public class Task {
     @Type(type = "state_enum_type")
     private TaskState state;
 
-    @Column(name = "exitCode")
+    @Column(name = "exit_code")
     private int exitCode;
 
-    public Task() {
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startedAt;
 
-    }
-
-    public Task(UUID id, String command) {
-        this.id = id;
-        this.command = command;
-    }
+    @Column(name = "last_updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdatedAt;
 
     public String getCommand() {
         return command;
