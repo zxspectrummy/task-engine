@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  publisher:
+    build:
+      context: .
+      dockerfile: pub.Dockerfile
+    container_name: publisher
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+
+  subscriber:
+    build:
+      context: .
+      dockerfile: sub.Dockerfile
+    container_name: subscriber
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  postgres:
+    image: postgres:13-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=taskengine
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/dat

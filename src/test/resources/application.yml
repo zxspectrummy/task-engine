@@ -1,0 +1,26 @@
+---
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASSWORD:guest}
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/taskengine_test
+    username: postgres
+    password: postgres
+queue:
+  reply: RPCReply
+  request: RPCRequest
+exchange:
+  direct: rpc-direct
+routingKey:
+  reply: RPCReply
+  request: RPCRequest
