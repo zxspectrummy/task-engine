@@ -68,7 +68,6 @@ public class TaskEngineIntegrationTest {
     private void runSubscriber() {
         new SpringApplicationBuilder(Application.class)
             .profiles("sub")
-            .properties("spring.main.web-application-type=none")
             .run();
     }
 }
